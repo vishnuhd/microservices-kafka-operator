@@ -1,0 +1,39 @@
+{
+    "id": 7,
+    "customer": {
+        "customerId": 5,
+        "name": "Wolff",
+        "firstname": "Eberhard",
+        "email": "eberhard.wolff@gmail.com"
+    },
+    "updated": 1559645957886,
+    "shippingAddress": {
+        "street": "Sector 61",
+        "zip": "201301",
+        "city": "Noida"
+    },
+    "billingAddress": {
+        "street": "18-A, Shatabdi Vihar, Sector 61, Noida",
+        "zip": "203207",
+        "city": "Gautam Buddha Nagar"
+    },
+    "orderLine": [
+        {
+            "count": 5,
+            "item": {
+                "itemId": 1,
+                "name": "iPod",
+                "price": 42.0
+            }
+        },
+        {
+            "count": 10,
+            "item": {
+                "itemId": 2,
+                "name": "iPod touch",
+                "price": 21.0
+            }
+        }
+    ],
+    "numberOfLines": 2
+}

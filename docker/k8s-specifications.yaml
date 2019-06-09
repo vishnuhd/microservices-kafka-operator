@@ -1,0 +1,160 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: apache
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apache
+    spec:
+      containers:
+      - image: vishnuhdadhich/mskafka_apache:latest
+        name: apache
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache
+spec:
+  type: NodePort
+  ports:
+  - name: "apache"
+    port: 8080
+    targetPort: 80
+    nodePort: 31000
+  selector:
+    app: apache
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: order
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: order
+    spec:
+      containers:
+      - image: vishnuhdadhich/mskafka_order:latest
+        name: order
+        env:
+        - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+          value: "my-cluster-kafka-bootstrap:9092"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order
+spec:
+  type: ClusterIP
+  ports:
+  - name: "order"
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: order
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: shipping
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: shipping
+    spec:
+      containers:
+      - image: vishnuhdadhich/mskafka_shipping:latest
+        name: shipping
+        env:
+        - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+          value: "my-cluster-kafka-bootstrap:9092"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping
+spec:
+  type: ClusterIP
+  ports:
+  - name: "shipping"
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: shipping
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: invoicing
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: invoicing
+    spec:
+      containers:
+      - image: vishnuhdadhich/mskafka_invoicing:latest
+        name: invoicing
+        env:
+        - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+          value: "my-cluster-kafka-bootstrap:9092"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: invoicing
+spec:
+  type: ClusterIP
+  ports:
+  - name: "invoicing"
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: invoicing
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - image: vishnuhdadhich/mskafka_postgres:latest
+        name: postgres
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: pgdata
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "dbpass"
+        - name: POSTGRES_USER
+          value: "dbuser"
+      volumes:
+      - name: pgdata
+        emptyDir: {} 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: postgres

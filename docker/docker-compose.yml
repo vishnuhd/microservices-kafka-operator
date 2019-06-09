@@ -1,0 +1,33 @@
+version: '3'
+services:
+  apache:
+    build: apache
+    links:
+     - order
+     - shipping
+     - invoicing
+    ports:
+     - "8080:80"
+  postgres:
+    build: postgres
+    environment:
+      POSTGRES_PASSWORD: dbpass
+      POSTGRES_USER: dbuser
+  order:
+    build: ../microservice-kafka/microservice-kafka-order
+    links:
+     - postgres
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: my-cluster-kafka-bootstrap:9092 
+  shipping:
+    build: ../microservice-kafka/microservice-kafka-shipping
+    links:
+     - postgres
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: my-cluster-kafka-bootstrap:9092 
+  invoicing:
+    build: ../microservice-kafka/microservice-kafka-invoicing
+    links:
+     - postgres
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: my-cluster-kafka-bootstrap:9092 
