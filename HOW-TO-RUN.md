@@ -34,7 +34,6 @@ package` or `mvnw.cmd clean package` (Windows). This will take a while:
 ```
 ./mvnw clean package -Dmaven.test.skip=true
 ```
-
 If this does not work:
 
 * Ensure that `settings.xml` in the directory `.m2` in your home
@@ -51,11 +50,9 @@ First you need to build the Docker images. Change to the directory
 `docker` and run `docker-compose build`. This will download some base
 images, install software into Docker images and will therefore take
 its time:
-
 ```
 docker-compose build
 ```
-
 Afterwards the Docker images should have been created. They have the prefix
 `mskafka`:
 
@@ -72,13 +69,10 @@ mskafka_postgres                                        latest              2b2f
 ## Push the images to Repository
 
 To push the images baked above to your repository, first tag the images :
-
 ```
 docker image tag mskafka_order vishnuhdadhich/mskafka_order:latest
 ```
-
 Then, login to your registry with `docker login` and push the images :
-
 ```
 docker push vishnuhdadhich/mskafka_order:latest
 ```
@@ -88,13 +82,10 @@ docker push vishnuhdadhich/mskafka_order:latest
 To run the Strimzi Kafka operator in your K8s cluster, we will use OperatorHub.io, 
 see https://operatorhub.io/operator/strimzi-cluster-operator . 
 Install Operator Lifecycle Manager (OLM), a tool to help manage the Operators running on your cluster. Platforms like OpenShift / OKD will have it pre-installed.
-
 ```
 $ curl -sL https://github.com/operator-framework/operator-lifecycle-manager/releases/download/0.10.0/install.sh | bash -s 0.10.0
 ```
-
 Install the operator by running the following command:
-
 ```
 kubectl create -f https://operatorhub.io/install/strimzi-cluster-operator.yaml
 ```
@@ -103,18 +94,16 @@ This Operator will be installed in the "operators" namespace and will be usable 
 
 ## Create the Kafka Cluster and a Topic
 
-The CRDs for Kafka cluster and a topic have been included in this repo. To apply them :
-
+The CRDs for Kafka cluster and a topic have been included in this repo. To apply them change to the directory `docker` and run :
 ```
 kubectl apply -f kafka.yaml
 kubectl apply -f topic.yaml
 ```
-
 Check if your Kafka pods are running by `kubectl get pods` command.
 
 ## Test the cluster 
 
-Commands to test the cluster :
+Once all the required pods are up, commands to test the cluster are :
 
 Produce some message :
 ```
@@ -130,10 +119,10 @@ Use `ctrl+c` to come back to your console.
 
 ## Deploy the Order processing application
 
+From the directory `docker`, run :
 ```
 kubectl apply -f k8s-specifications.yaml
 ```
-
 If any of the pods is not running, you can look at its logs using
 e.g.  `kubectl logs <podname>`. The name of the pod is
 given in the last column of the output of `kubectl get pods`. Looking at the
