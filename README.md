@@ -86,6 +86,6 @@ that regard.
 
 ## References
 
-https://github.com/ewolff/microservice-kafka.git
-https://operatorhub.io/operator/strimzi-cluster-operator
+https://github.com/ewolff/microservice-kafka.git   
+https://operatorhub.io/operator/strimzi-cluster-operator   
 https://strimzi.io/
