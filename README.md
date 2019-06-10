@@ -29,6 +29,8 @@ Technologies
 - Docker Compose to bake the images.
 - Kubernetes to link the containers.
 
+![Architecture Diagram](https://github.com/vishnuhd/microservices-kafka-operator/blob/master/docker/ArchitectureDiagram.png)
+
 How To Run
 ----------
 
