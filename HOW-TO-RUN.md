@@ -80,14 +80,14 @@ docker push vishnuhdadhich/mskafka_order:latest
 ## Running Strimzi Kafka operator
 
 To run the Strimzi Kafka operator in your K8s cluster, we will use OperatorHub.io, 
-see https://operatorhub.io/operator/strimzi-cluster-operator . 
+see https://operatorhub.io/operator/strimzi-kafka-operator . 
 Install Operator Lifecycle Manager (OLM), a tool to help manage the Operators running on your cluster. Platforms like OpenShift / OKD will have it pre-installed.
 ```
 $ curl -sL https://github.com/operator-framework/operator-lifecycle-manager/releases/download/0.10.0/install.sh | bash -s 0.10.0
 ```
 Install the operator by running the following command:
 ```
-kubectl create -f https://operatorhub.io/install/strimzi-cluster-operator.yaml
+kubectl create -f https://operatorhub.io/install/strimzi-kafka-operator.yaml
 ```
 
 This Operator will be installed in the "operators" namespace and will be usable from all namespaces in the cluster. After install, checkout the custom resource definitions (CRDs) introduced by this operator to start using it.
